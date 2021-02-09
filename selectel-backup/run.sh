@@ -17,7 +17,7 @@ archpath="$hassbackup/$archfile"
 
 echo "[Info] Starting backup creating $archpath"
 cd /
-tar zcf ${archpath} --exclude ./*.db --exclude ./*.db-shm --exclude ./*.db-wal /config /media /share /ssl /addons
+tar zcf ${archpath} --exclude ./*.db --exclude ./*.db-shm --exclude ./*.db-wal --exclude **/log/* /config /media /share /ssl /addons
 echo "[Info] Finished archiving configuration"
 
 echo "[Info] trying to upload $archpath"

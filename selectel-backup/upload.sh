@@ -12,4 +12,4 @@ if [ "$FILE.." == ".." ] || [ "$CRYPTKEY.." == ".." ] || [ "$SUSER.." == ".." ] 
 fi
 
 openssl enc -aes128 -salt -in $FILE -out $FILE.enc -e -k $CRYPTKEY
-/opt/supload.sh -u $SUSER -k $SPASS $SPATH $FILE.enc && rm $FILE $FILE.enc
+/opt/supload.sh -u $SUSER -k $SPASS $SPATH $FILE.enc && rm $FILE.enc

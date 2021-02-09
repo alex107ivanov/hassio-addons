@@ -1,6 +1,6 @@
 {
   "name": "Selectel Backup",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "slug": "selectelbackup",
   "description": "Creates a backup of the configuration folder config. An archive of the config directory will be stored under backup and also upload the archive to selectel. The archive will be ssl encrypted.",
   "startup": "before",
@@ -12,7 +12,7 @@
     "aarch64"
   ],
   "boot": "auto",
-  "map": ["config", "backup:rw"],
+  "map": ["config", "media", "share", "ssl", "addons", "backup:rw"],
   "options": {
     "cryptkey": "",
     "username": "",

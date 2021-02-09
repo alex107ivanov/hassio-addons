@@ -11,14 +11,13 @@ path=$(jq --raw-output ".path" $CONFIG_PATH)
 deleteolderthan=$(jq --raw-output ".deleteolderthan" $CONFIG_PATH)
 
 today=`date +%Y%m%d%H%M%S`
-hassconfig="/config"
 hassbackup="/backup"
 archfile="homeassistant_backup_$today.tar.gz"
 archpath="$hassbackup/$archfile"
 
 echo "[Info] Starting backup creating $archpath"
-cd $hassconfig
-tar zcf ${archpath} --exclude ./*.db --exclude ./*.db-shm --exclude ./*.db-wal .
+cd /
+tar zcf ${archpath} --exclude ./*.db --exclude ./*.db-shm --exclude ./*.db-wal /config /media /share /ssl /addon
 echo "[Info] Finished archiving configuration"
 
 echo "[Info] trying to upload $archpath"

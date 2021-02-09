@@ -1,6 +1,6 @@
 {
   "name": "Selectel Backup",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "slug": "selectelbackup",
   "description": "Creates a backup of the configuration folder config. An archive of the config directory will be stored under backup and also upload the archive to selectel. The archive will be ssl encrypted.",
   "startup": "before",

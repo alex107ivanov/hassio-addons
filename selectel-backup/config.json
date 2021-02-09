@@ -1,0 +1,30 @@
+{
+  "name": "Selectel Backup",
+  "version": "0.0.1",
+  "slug": "selectelbackup",
+  "description": "Creates a backup of the configuration folder config. An archive of the config directory will be stored under backup and also upload the archive to selectel. The archive will be ssl encrypted.",
+  "startup": "before",
+  "arch": [
+    "amd64",
+    "armhf",
+    "i386",
+    "armv7",
+    "aarch64"
+  ],
+  "boot": "auto",
+  "map": ["config", "backup:rw"],
+  "options": {
+    "cryptkey": "",
+    "username": "",
+    "password": "",
+    "path": "homeassistant",
+    "deleteolderthan": "365"
+  },
+  "schema": {
+    "cryptkey": "str",
+    "username": "str", 
+    "password": "str",
+    "path": "str",
+    "deleteolderthan": "int"
+  }
+}

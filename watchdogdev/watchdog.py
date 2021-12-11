@@ -39,6 +39,6 @@ class WatchdogDev:
     print("Stop app")
 
 if __name__ == '__main__':
-  app = WatchdogDev(60)
+  app = WatchdogDev()
   app.run()
   print("Exit")

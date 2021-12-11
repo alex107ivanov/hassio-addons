@@ -4,10 +4,13 @@ from watchdogdev import *
 
 wdt = watchdog('/dev/watchdog')
 wdt.get_support()
-wdt.identity
+print("Watchdog identity: ", wdt.identity)
+print("Watchdog firmware version: ", wdt.firmware_version)
+print("Watchdog options: ", wdt.options)
+print("Current timeout: %d" % wdt.get_timeout())
 
-#wdt.set_timeout()
-print("Timeout: %d" % wdt.get_timeout())
+wdt.set_timeout(60)
+print("New timeout: %d" % wdt.get_timeout())
 
 for i in range(5):
     print("Send Keep alive %d" % i)
@@ -17,7 +20,7 @@ for i in range(5):
         sleep(1)
 
 if wdt.options & WDIOF_MAGICCLOSE == WDIOF_MAGICCLOSE:
-  print("Magic Close")
+  print("Magic Close Needed")
   wdt.magic_close()
 
 print("Done !")

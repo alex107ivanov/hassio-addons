@@ -12,20 +12,20 @@ class WatchdogDev:
     self.sleep_time = 5
 
   def exit_gracefully(self, signum, frame):
-    logging.info('Received signal:', signum)
+    logging.info('Received signal: %d', signum)
     self.shutdown = True
 
   def run(self):
     logging.info("Opening watchdog device")
     self.wdt = watchdog('/dev/watchdog')
     self.wdt.get_support()
-    logging.info("Watchdog identity:", self.wdt.identity)
-    logging.info("Watchdog firmware version:", self.wdt.firmware_version)
-    logging.info("Watchdog options:", self.wdt.options)
-    logging.info("Watchdog timeout:", self.wdt.get_timeout())
-    logging.info("Starting main cycle with sleep time", self.sleep_time,"sec...")
+    logging.info("Watchdog identity: %s", self.wdt.identity)
+    logging.info("Watchdog firmware version: %d", self.wdt.firmware_version)
+    logging.info("Watchdog options: %d", self.wdt.options)
+    logging.info("Watchdog timeout: %d", self.wdt.get_timeout())
+    logging.info("Starting main cycle with sleep time %d sec...", self.sleep_time)
     while self.shutdown != True:
-      logging.debug("Watchdog timeout left:", self.wdt.get_time_left())
+      logging.debug("Watchdog timeout left: %d", self.wdt.get_time_left())
       logging.debug("Send keep alive")
       self.wdt.keep_alive()
       sleep(self.sleep_time)

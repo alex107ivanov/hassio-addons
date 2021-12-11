@@ -4,16 +4,11 @@ from watchdogdev import *
 import signal
 
 class WatchdogDev:
-  def __init__(self, timeout):
+  def __init__(self):
     self.shutdown = False
     signal.signal(signal.SIGINT, self.exit_gracefully)
     signal.signal(signal.SIGTERM, self.exit_gracefully)
-    self.timeout = timeout
-    if self.timeout < 10:
-      self.timeout = 10
-    self.sleep_time = self.timeout / 10
-    if self.sleep_time < 1:
-      self.sleep_time = 1
+    self.sleep_time = 5
 
   def exit_gracefully(self, signum, frame):
     print('Received signal:', signum)
@@ -23,16 +18,14 @@ class WatchdogDev:
     print("Opening watchdog device")
     self.wdt = watchdog('/dev/watchdog')
     self.wdt.get_support()
-    print("Watchdog identity: ", self.wdt.identity)
-    print("Watchdog firmware version: ", self.wdt.firmware_version)
-    print("Watchdog options: ", self.wdt.options)
-    print("Current timeout: ", self.wdt.get_timeout())
-    self.wdt.set_timeout(timeout)
-    print("New timeout: ", self.wdt.get_timeout())
-    print("Starting main cycle...")
+    print("Watchdog identity:", self.wdt.identity)
+    print("Watchdog firmware version:", self.wdt.firmware_version)
+    print("Watchdog options:", self.wdt.options)
+    print("Current timeout:", self.wdt.get_timeout())
+    print("Starting main cycle with sleep time", self.sleep_time,"sec...")
     while self.shutdown != True:
-      print("Timeout left: ", self.wdt.get_time_left())
-      print("Send Keep alive")
+      print("Watchdog timeout left:", self.wdt.get_time_left())
+      print("Send keep alive")
       self.wdt.keep_alive()
       sleep(self.sleep_time)
     print("Got shutdown signal")

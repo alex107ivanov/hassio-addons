@@ -1,6 +1,6 @@
 {
   "name": "Watchdog Dev",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "slug": "watchdogdev",
   "description": "Service activates /dev/watchdog - hardware watchdog device to restart server on no responce. For details about watchdog see https://www.kernel.org/doc/Documentation/watchdog/watchdog-api.txt",
   "startup": "before",

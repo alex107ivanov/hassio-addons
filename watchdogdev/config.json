@@ -1,0 +1,16 @@
+{
+  "name": "Watchdog Dev",
+  "version": "0.0.1",
+  "slug": "watchdogdev",
+  "description": "/dev/watchdog manipulation service",
+  "startup": "before",
+  "arch": [
+    "amd64",
+    "armhf",
+    "i386",
+    "armv7",
+    "aarch64"
+  ],
+  "boot": "auto",
+  "devices": ["/dev/watchdog"]
+}

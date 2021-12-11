@@ -29,7 +29,7 @@ class WatchdogDev:
       self.wdt.keep_alive()
       sleep(self.sleep_time)
     print("Got shutdown signal")
-    if wdt.options & WDIOF_MAGICCLOSE == WDIOF_MAGICCLOSE:
+    if self.wdt.options & WDIOF_MAGICCLOSE == WDIOF_MAGICCLOSE:
       print("Magic close needed")
       self.wdt.magic_close()
       print("Magic close done")

@@ -2,6 +2,7 @@
 from time import sleep
 from watchdogdev import *
 import signal
+import logging
 
 class WatchdogDev:
   def __init__(self):
@@ -11,34 +12,32 @@ class WatchdogDev:
     self.sleep_time = 5
 
   def exit_gracefully(self, signum, frame):
-    print('Received signal:', signum)
+    logging.info('Received signal:', signum)
     self.shutdown = True
 
   def run(self):
-    print("Opening watchdog device")
+    logging.info("Opening watchdog device")
     self.wdt = watchdog('/dev/watchdog')
     self.wdt.get_support()
-    print("Watchdog identity:", self.wdt.identity)
-    print("Watchdog firmware version:", self.wdt.firmware_version)
-    print("Watchdog options:", self.wdt.options)
-    print("Current timeout:", self.wdt.get_timeout())
-    print("Starting main cycle with sleep time", self.sleep_time,"sec...")
+    logging.info("Watchdog identity:", self.wdt.identity)
+    logging.info("Watchdog firmware version:", self.wdt.firmware_version)
+    logging.info("Watchdog options:", self.wdt.options)
+    logging.info("Watchdog timeout:", self.wdt.get_timeout())
+    logging.info("Starting main cycle with sleep time", self.sleep_time,"sec...")
     while self.shutdown != True:
-      print("Watchdog timeout left:", self.wdt.get_time_left())
-      print("Send keep alive")
+      logging.debug("Watchdog timeout left:", self.wdt.get_time_left())
+      logging.debug("Send keep alive")
       self.wdt.keep_alive()
       sleep(self.sleep_time)
-    print("Got shutdown signal")
+    logging.info("Got shutdown signal")
     if self.wdt.options & WDIOF_MAGICCLOSE == WDIOF_MAGICCLOSE:
-      print("Magic close needed")
+      logging.info("Magic close needed")
       self.wdt.magic_close()
-      print("Magic close done")
-    print("Main cycle finished")
-
-  def stop(self):
-    print("Stop app")
+      logging.info("Magic close done")
+    logging.info("Main cycle finished")
 
 if __name__ == '__main__':
+  logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
   app = WatchdogDev()
   app.run()
-  print("Exit")
+  logging.info("Exit")

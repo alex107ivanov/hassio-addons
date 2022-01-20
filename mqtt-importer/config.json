@@ -1,0 +1,59 @@
+{
+  "name": "MQTT Importer",
+  "version": "0.0.1",
+  "slug": "mqtt-importer",
+  "description": "Imports data from one MQTT server to enother. For example from external server to local.",
+  "startup": "before",
+  "arch": [
+    "amd64",
+    "armhf",
+    "i386",
+    "armv7",
+    "aarch64"
+  ],
+  "boot": "auto",
+  "options": {
+    "src": {
+      "server": {
+        "host": null,
+        "port": 1883,
+        "username": null,
+        "password": null,
+        "client_id": "mqtt-importer-src"
+      },
+      "subscribe": ["#"]
+    },
+    "dst": {
+      "server": {
+        "host": "127.0.0.1",
+        "port": 1883,
+        "username": null,
+        "password": null,
+        "client_id": "mqtt-importer-dst"
+      },
+      "prefix": "tmp-import"
+    }
+  },
+  "schema": {
+    "src": {
+      "server": {
+        "host": "str",
+        "port": "int",
+        "username": "str",
+        "password": "str",
+        "client_id": "str"
+      },
+      "subscribe": [ "str" ]
+    },
+    "dst": {
+      "server": {
+        "host": "str",
+        "port": "int",
+        "username": "str",
+        "password": "str",
+        "client_id": "str"
+      },
+      "prefix": "str"
+    }
+  }
+}

@@ -20,19 +20,11 @@ type ServerConfig struct {
   ClientId string `json:"client_id" jsonschema:"required, type=string"`
 }
 
-type SrcConfig struct {
-  Server ServerConfig `json:"server" jsonschema:"required"`
-  Subscribe []string `json:"subscribe" jsonschema:"required"`
-}
-
-type DstConfig struct {
-  Server ServerConfig `json:"server" jsonschema:"required"`
-  Prefix string `json:"prefix" jsonschema:"required, type=string"`
-}
-
 type Configuration struct {
-  Src SrcConfig `json:"src" jsonschema:"required"`
-  Dst DstConfig `json:"dst" jsonschema:"required"`
+  SrcServer ServerConfig `json:"src_server" jsonschema:"required"`
+  Subscribe []string `json:"subscribe" jsonschema:"required"`
+  DstServer ServerConfig `json:"dst_server" jsonschema:"required"`
+  Prefix string `json:"prefix" jsonschema:"required, type=string"`
 }
 
 var connectHandler mqtt.OnConnectHandler = func(client mqtt.Client) {
@@ -40,7 +32,8 @@ var connectHandler mqtt.OnConnectHandler = func(client mqtt.Client) {
 }
 
 func main() {
-  configFile = "/data/options.json"
+  configFile := "/data/options.json"
+//  configFile := "config.json"
   file, _ := os.Open(configFile)
   defer file.Close()
   decoder := json.NewDecoder(file)
@@ -50,7 +43,7 @@ func main() {
   log.Printf("Schema: %s", string(b))
   err := decoder.Decode(&config)
   if err != nil {
-    log.Printf("error: %v", err)
+    log.Printf("Config decode error: %v", err)
     os.Exit(1)
   }
   log.Printf("Config: %v", config)
@@ -81,7 +74,7 @@ func main() {
 
 
 
-  dstClient, err := createClient(config.Dst.Server, func(client mqtt.Client, msg mqtt.Message){}, func(client mqtt.Client, err error) {
+  dstClient, err := createClient(config.DstServer, func(client mqtt.Client, msg mqtt.Message){}, func(client mqtt.Client, err error) {
     log.Printf("Connect lost: %v", err);
     select {
       case quit <- os.Interrupt: {}
@@ -92,9 +85,9 @@ func main() {
     os.Exit(2)
   }
 
-  srcClient, err := createClient(config.Src.Server, func(client mqtt.Client, msg mqtt.Message){
+  srcClient, err := createClient(config.SrcServer, func(client mqtt.Client, msg mqtt.Message){
     log.Printf("Got message %s from topic %s", msg.Payload(), msg.Topic())
-    newTopic := config.Dst.Prefix + "/" + msg.Topic()
+    newTopic := config.Prefix + "/" + msg.Topic()
     token := dstClient.Publish(newTopic, msg.Qos(), msg.Retained(), msg.Payload())
     token.Wait()
     if token.Error() != nil {
@@ -114,7 +107,7 @@ func main() {
     log.Printf("Error connecting to src MQTT server: %v", err)
     os.Exit(2)
   }
-  err = sub(srcClient, config.Src.Subscribe)
+  err = sub(srcClient, config.Subscribe)
   if err != nil {
     log.Printf("Error subscribing to topics: %s", err)
     os.Exit(3)

@@ -1,6 +1,6 @@
 {
   "name": "Openvpn Client",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "slug": "openvpn-client",
   "description": "Client to connect HA to OpenVpn server.",
   "startup": "before",
@@ -13,6 +13,7 @@
   ],
   "boot": "auto",
   "privileged": ["NET_ADMIN"],
+  "host_network": true,
   "options": {
     "config": [
       "openvpn", 

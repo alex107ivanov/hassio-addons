@@ -1,6 +1,6 @@
 {
   "name": "Openvpn Client",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "slug": "openvpn-client",
   "description": "Client to connect HA to OpenVpn server.",
   "startup": "before",

@@ -10,7 +10,7 @@ fi
 
 OVPNCONF='/config.ovpn'
 
-cat /data/options.json | jq -r '.config' > $OVPNCONF
+cat /data/options.json | jq --raw-output '.config[]' > $OVPNCONF
 
 exec /usr/sbin/openvpn --config $OVPNCONF
 

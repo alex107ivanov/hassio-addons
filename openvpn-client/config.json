@@ -1,0 +1,21 @@
+{
+  "name": "Openvpn Client",
+  "version": "0.0.1",
+  "slug": "openvpn-client",
+  "description": "Client to connect HA to OpenVpn server.",
+  "startup": "before",
+  "arch": [
+    "amd64",
+    "armhf",
+    "i386",
+    "armv7",
+    "aarch64"
+  ],
+  "boot": "auto",
+  "options": {
+    "config": "openvpn config with keys"
+  },
+  "schema": {
+    "config": "str"
+  }
+}

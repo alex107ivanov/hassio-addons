@@ -8,7 +8,7 @@ if [ ! -c /dev/net/tun ]; then
 	mknod /dev/net/tun c 10 200
 fi
 
-OVPNCONF='/vpn/config/config.ovpn'
+OVPNCONF='/config.ovpn'
 
 cat /data/options.json | jq -r '.config' > $OVPNCONF
 
